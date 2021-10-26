@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import Rectangle from 'types/Rectangle';
 import { ApiRectangle, LoadingStatus } from 'types';
+import baseApiPath from 'constants/baseApiPath';
 import throwResponseErrorIfNeeded from 'helpers/throwResponseErrorIfNeeded';
 import { RootState, AppThunk } from './store';
 
@@ -57,16 +58,14 @@ export const getInit = (id?: string): AppThunk => async dispatch => {
   try {
     dispatch(start());
     if (!id) {
-      const initResponse
-        = await fetch('https://recruitment01.vercel.app/api/init');
+      const initResponse = await fetch(`${baseApiPath}/init`);
       throwResponseErrorIfNeeded(initResponse);
       const initData = await initResponse.json();
       projectId = initData.id;
       dispatch(init(initData));
     }
 
-    const projectResponse
-      = await fetch(`https://recruitment01.vercel.app/api/project/${projectId}`);
+    const projectResponse = await fetch(`${baseApiPath}/project/${projectId}`);
     throwResponseErrorIfNeeded(projectResponse);
     const projectData = await projectResponse.json();
     dispatch(project(projectData));
