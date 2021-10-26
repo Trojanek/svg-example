@@ -1,0 +1,16 @@
+.search {
+  height: 40px;
+  padding: 8px;
+  display: flex;
+}
+.info {
+  display: flex;
+  height: 40px;
+  padding: 8px;
+  align-items: center;
+  background-color: white;
+  border-bottom: 1px solid lightgray;
+}
+.canvas {
+  height: calc(100vh - 80px);
+}

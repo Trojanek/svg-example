@@ -1,26 +1,35 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useState, ChangeEvent } from 'react';
+import { useAppDispatch, useAppSelector } from 'hooks';
+import { getInit, selectStatus, selectProject } from 'store/canvasSlice';
+import Picture from 'components/Picture';
 
-function App() {
+const App = () => {
+  const [id, setId] = useState('');
+  const dispatch = useAppDispatch();
+  const status = useAppSelector(selectStatus);
+  const project = useAppSelector(selectProject);
+  const dispatchFetch = () => dispatch(getInit(id || undefined));
+
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setId(event.target.value.trim());
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <div className="search">
+        <input
+          type="text"
+          value={id}
+          placeholder=""
+          onChange={handleChange}
+        />
+        <button aria-label="Fetch" onClick={dispatchFetch}>
+          Fetch
+        </button>
+      </div>
+      <Picture status={status} project={project} />
     </div>
   );
-}
+};
 
 export default App;
